@@ -1,0 +1,126 @@
+From latombe@flamingo.Stanford.EDU Wed Feb 26 10:33:24 1997
+Received: from CS.Stanford.EDU (CS.Stanford.EDU [171.64.64.64]) by flamingo.Stanford.EDU (8.8.4/8.7.1) with ESMTP id KAA22627 for <lavalle@flamingo.Stanford.EDU>; Wed, 26 Feb 1997 10:33:24 -0800
+Received: from flamingo.Stanford.EDU (flamingo.Stanford.EDU [171.64.68.20])
+          by CS.Stanford.EDU (8.8.4/8.8.4) with ESMTP
+      id KAA19543 for <lavalle@cs.stanford.edu>; Wed, 26 Feb 1997 10:32:19 -0800 (PST)
+Received: (from latombe@localhost) by flamingo.Stanford.EDU (8.8.4/8.7.1) id KAA22623 for lavalle@cs.stanford.edu; Wed, 26 Feb 1997 10:33:22 -0800
+Date: Wed, 26 Feb 1997 10:33:22 -0800
+From: Jean-Claude Latombe <latombe@flamingo.Stanford.EDU>
+Message-Id: <199702261833.KAA22623@flamingo.Stanford.EDU>
+To: lavalle@CS.Stanford.EDU
+Subject: Re:  RS code
+X-Mozilla-Status: 0011
+Content-Length: 3483
+
+The functions c_c_c through cs2_cb compute the lengths of the RS curves, for
+a certain increment of configuration (x,y,phi) computed in the function
+reed-shepp.
+
+The function reed-shepp computes the increment between two configurations and
+scans all RS curves to determine the shortest one. It is called through the
+function min_length_rs to avoid a too small increment (which could yield
+numerical errors).
+
+The function constRS computes the discretized path (in pathx, pathy,
+and patht) of the RS curve number NUM, parameters t, u and v, starting
+at (x1,y1,t1).  It calls fct_curve that computes the path for a right
+circular arc, left circular atc, and straight line. The discretization
+done in fct-curve is rather ugly, and you could rewrite this function.
+
+jcl
+
+
+Jean-Claude,
+
+Two questions about the RS code:
+
+1. I assume the #import "RobotView.h" can be deleted?
+2. What is the significance of the following parameters
+   to reed_shepp():
+
+   double *tr,*ur,*vr;
+   int *numero;
+
+
+Thanks,
+--james
+
+
+ANSWER:
+
+1. You are right. You need it only for the RADCURV parameter family
+(see next message). But it is preferable to redefine these parameters
+in your own program, to avoid importing a long file, that is mostly
+irrelevant to your program.
+
+2. From the brief description of the RS curves given in HO 9 you can
+gather that RS curves consist of 3 to 5 segments (straight segments
+and/or circular arcs). However, at most 3 have unpredetermined
+lengths.  The parameters tr, ur, vr are intended to contain these
+lengths.  For example, the first call in the function reed_shepp() is
+to c_c_c(). The pointers to tn, un, and vn are passed to c_c_c(),
+which computes the length of the 3 circular arcs of this RS curve. At
+the end, reed_shepp puts in tr, ur, and vr the parameters
+corresponding to the shortest RS curves found.  The unit of length for
+a straight segment is whatever you want.  For a circular arc it is in
+radians.
+
+The parameter numero is just the number identifying a RS curve.  The
+value given at the end of reed-shepp is the number (1 to 48)
+identifying the shortes RS curve found between the two given
+configurations.
+
+>From jek@CS.Stanford.EDU Mon Apr 26 23:45:57 1993
+Return-Path: <jek@CS.Stanford.EDU>
+Received: from Xenon.Stanford.EDU by flamingo.Stanford.EDU with SMTP (5.61/25-Robotics-eef) id AA25611; Mon, 26 Apr 93 23:45:44 -0700
+Received:  by Xenon.Stanford.EDU (5.61+IDA/25-CS-eef) id AA22974; Mon, 26 Apr 93 23:46:02 -0700
+Date: Mon, 26 Apr 93 23:46:02 -0700
+From: James E. Kittock <jek@CS.Stanford.EDU>
+Message-Id: <9304270646.AA22974@Xenon.Stanford.EDU>
+To: latombe@cs.Stanford.EDU
+Subject: another question
+Status: RO
+
+
+What are the units of
+
+   extern float RADCURV,RADCURVMUL2,RADCURVMUL4;
+   extern float SQRADCURV,SQRADCURVMUL2;
+
+and where should they be defined?  Also, should
+SQRADCURVMUL2 contain 
+
+RADCURV*RADCURV*2 
+
+or
+
+RADCURVMUL2*RADCURVMUL2?
+
+Thanks,
+--james
+
+
+ANSWER:
+
+RADCURV is the radius of the circular arcs in the RS curves (the
+turning radius of the robot). It is in whatever units you want.
+
+RADCURVMUL2 is defined as 2 * RADCURV
+RADCURVMUL4 is defined as 4 * RADCURV
+SQRADCURV   is defined as RADCURV * RADCURV
+SQRADCURVMUL2 is defined as 4 * RADCURV * RADCURV
+
+They are defined in RobotView.h, but rather than importing this long
+file, you can just redefine them here.
+
+
+
+
+
+
+
+I hope this answers your questions. Thanks for raising them, since the
+other students are likely to have the same difficulties as you.
+
+
+Jean-Claude
