@@ -1,9 +1,15 @@
-#import <cmath>
+#include <cmath>
+#include <cstdio>
+#include <exception>
 
 namespace lavalle {
 
+#define RADCURVMUL2 (2 * RADCURV)
+#define RADCURVMUL4 (4 * RADCURV)
+#define SQRADCURV (RADCURV * RADCURV)
+#define SQRADCURVMUL2 (4 * RADCURV * RADCURV)
+
 const double EPS1 = 1.0e-12;
-const double EPS2 = 1.0e-12;
 const double EPS3 = 1.0e-12;
 const double EPS4 = 1.0e-12;
 
@@ -25,11 +31,12 @@ double my_atan2(double y, double x) {
   double a;
   if ((x == 0.0) && (y == 0.0))
     return 0.0;
-  if (x == 0.0)
+  if (x == 0.0) {
     if (y > 0)
       return MPIDIV2;
     else
       return -MPIDIV2;
+  }
   a = atan(y / x);
   if (a > 0.0)
     if (x > 0)
@@ -43,9 +50,15 @@ double my_atan2(double y, double x) {
 }
 
 /***********************************************************/
-double
-c_c_c(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
+double c_c_c(float RADCURV,
+             double x,
+             double y,
+             double phi,
+             double rs,
+             double rc,
+             double* t,
+             double* u,
+             double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x - rs;
@@ -66,8 +79,15 @@ c_c_c(double x, double y, double phi, double rs, double rc, double* t, double* u
 }
 
 /***********************************************************/
-double c_cc(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
+double c_cc(float RADCURV,
+            double x,
+            double y,
+            double phi,
+            double rs,
+            double rc,
+            double* t,
+            double* u,
+            double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x - rs;
@@ -88,8 +108,15 @@ double c_cc(double x, double y, double phi, double rs, double rc, double* t, dou
 }
 
 /***********************************************************/
-double csca(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
+double csca(float RADCURV,
+            double x,
+            double y,
+            double phi,
+            double rs,
+            double rc,
+            double* t,
+            double* u,
+            double* v) {
   double a, b, length_rs;
 
   a = x - rs;
@@ -103,9 +130,15 @@ double csca(double x, double y, double phi, double rs, double rc, double* t, dou
 }
 
 /***********************************************************/
-double cscb(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
-  extern float SQRADCURV, SQRADCURVMUL2;
+double cscb(float RADCURV,
+            double x,
+            double y,
+            double phi,
+            double rs,
+            double rc,
+            double* t,
+            double* u,
+            double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x + rs;
@@ -124,9 +157,15 @@ double cscb(double x, double y, double phi, double rs, double rc, double* t, dou
 }
 
 /***********************************************************/
-double
-ccu_cuc(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
+double ccu_cuc(float RADCURV,
+               double x,
+               double y,
+               double phi,
+               double rs,
+               double rc,
+               double* t,
+               double* u,
+               double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x + rs;
@@ -154,10 +193,15 @@ ccu_cuc(double x, double y, double phi, double rs, double rc, double* t, double*
 }
 
 /***********************************************************/
-double
-c_cucu_c(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
-  extern float SQRADCURV, SQRADCURVMUL2;
+double c_cucu_c(float RADCURV,
+                double x,
+                double y,
+                double phi,
+                double rs,
+                double rc,
+                double* t,
+                double* u,
+                double* v) {
   double a, b, u1, theta, alpha, length_rs, va1, va2;
 
   a = x + rs;
@@ -182,10 +226,15 @@ c_cucu_c(double x, double y, double phi, double rs, double rc, double* t, double
 }
 
 /***********************************************************/
-double
-c_c2sca(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
-  extern float SQRADCURV, SQRADCURVMUL2;
+double c_c2sca(float RADCURV,
+               double x,
+               double y,
+               double phi,
+               double rs,
+               double rc,
+               double* t,
+               double* u,
+               double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x - rs;
@@ -206,9 +255,15 @@ c_c2sca(double x, double y, double phi, double rs, double rc, double* t, double*
 }
 
 /***********************************************************/
-double
-c_c2scb(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
+double c_c2scb(float RADCURV,
+               double x,
+               double y,
+               double phi,
+               double rs,
+               double rc,
+               double* t,
+               double* u,
+               double* v) {
   double a, b, u1, theta, length_rs;
 
   a = x + rs;
@@ -226,10 +281,15 @@ c_c2scb(double x, double y, double phi, double rs, double rc, double* t, double*
 }
 
 /***********************************************************/
-double
-c_c2sc2_c(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
-  extern float SQRADCURV, SQRADCURVMUL2;
+double c_c2sc2_c(float RADCURV,
+                 double x,
+                 double y,
+                 double phi,
+                 double rs,
+                 double rc,
+                 double* t,
+                 double* u,
+                 double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x + rs;
@@ -250,9 +310,15 @@ c_c2sc2_c(double x, double y, double phi, double rs, double rc, double* t, doubl
 }
 
 /***********************************************************/
-double cc_c(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
-  extern float SQRADCURV, SQRADCURVMUL2;
+double cc_c(float RADCURV,
+            double x,
+            double y,
+            double phi,
+            double rs,
+            double rc,
+            double* t,
+            double* u,
+            double* v) {
   double a, b, u1, theta, alpha, length_rs, va;
 
   a = x - rs;
@@ -278,10 +344,15 @@ double cc_c(double x, double y, double phi, double rs, double rc, double* t, dou
 }
 
 /***********************************************************/
-double
-csc2_ca(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
-  extern float SQRADCURV, SQRADCURVMUL2;
+double csc2_ca(float RADCURV,
+               double x,
+               double y,
+               double phi,
+               double rs,
+               double rc,
+               double* t,
+               double* u,
+               double* v) {
   double a, b, u1, theta, alpha, length_rs;
 
   a = x - rs;
@@ -302,9 +373,15 @@ csc2_ca(double x, double y, double phi, double rs, double rc, double* t, double*
 }
 
 /***********************************************************/
-double
-csc2_cb(double x, double y, double phi, double rs, double rc, double* t, double* u, double* v) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
+double csc2_cb(float RADCURV,
+               double x,
+               double y,
+               double phi,
+               double rs,
+               double rc,
+               double* t,
+               double* u,
+               double* v) {
   double a, b, u1, theta, length_rs;
 
   a = x + rs;
@@ -322,17 +399,17 @@ csc2_cb(double x, double y, double phi, double rs, double rc, double* t, double*
 }
 
 /***********************************************************/
-double reed_shepp(double x1,
+double reed_shepp(float RADCURV,
+                  double x1,
                   double y1,
                   double t1,
                   double x2,
                   double y2,
                   double t2,
-                  double* numero,
+                  int* numero,
                   double* tr,
                   double* ur,
                   double* vr) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
   double x, y, phi;
   double t, u, v, tn, un, vn;
   int num;
@@ -360,13 +437,13 @@ double reed_shepp(double x1,
 
   /*   C | C | C   */
 
-  length = c_c_c(x, y, phi, ap, b1, &tn, &un, &vn);
+  length = c_c_c(RADCURV, x, y, phi, ap, b1, &tn, &un, &vn);
   num = 1;
   t = tn;
   u = un;
   v = vn;
 
-  var = c_c_c(-x, y, -phi, am, b1, &tn, &un, &vn);
+  var = c_c_c(RADCURV, -x, y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 2;
@@ -375,7 +452,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c_c(x, -y, -phi, am, b1, &tn, &un, &vn);
+  var = c_c_c(RADCURV, x, -y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 3;
@@ -384,7 +461,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c_c(-x, -y, phi, ap, b1, &tn, &un, &vn);
+  var = c_c_c(RADCURV, -x, -y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 4;
@@ -395,7 +472,7 @@ double reed_shepp(double x1,
 
   /*   C | C C   */
 
-  var = c_cc(x, y, phi, ap, b1, &tn, &un, &vn);
+  var = c_cc(RADCURV, x, y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 5;
@@ -404,7 +481,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_cc(-x, y, -phi, am, b1, &tn, &un, &vn);
+  var = c_cc(RADCURV, -x, y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 6;
@@ -413,7 +490,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_cc(x, -y, -phi, am, b1, &tn, &un, &vn);
+  var = c_cc(RADCURV, x, -y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 7;
@@ -422,7 +499,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_cc(-x, -y, phi, ap, b1, &tn, &un, &vn);
+  var = c_cc(RADCURV, -x, -y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 8;
@@ -433,7 +510,7 @@ double reed_shepp(double x1,
 
   /*   C S C   */
 
-  var = csca(x, y, phi, ap, b1, &tn, &un, &vn);
+  var = csca(RADCURV, x, y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 9;
@@ -442,7 +519,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csca(x, -y, -phi, am, b1, &tn, &un, &vn);
+  var = csca(RADCURV, x, -y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 10;
@@ -451,7 +528,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csca(-x, y, -phi, am, b1, &tn, &un, &vn);
+  var = csca(RADCURV, -x, y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 11;
@@ -460,7 +537,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csca(-x, -y, phi, ap, b1, &tn, &un, &vn);
+  var = csca(RADCURV, -x, -y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 12;
@@ -469,7 +546,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cscb(x, y, phi, ap, b2, &tn, &un, &vn);
+  var = cscb(RADCURV, x, y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 13;
@@ -478,7 +555,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cscb(x, -y, -phi, am, b2, &tn, &un, &vn);
+  var = cscb(RADCURV, x, -y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 14;
@@ -487,7 +564,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cscb(-x, y, -phi, am, b2, &tn, &un, &vn);
+  var = cscb(RADCURV, -x, y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 15;
@@ -496,7 +573,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cscb(-x, -y, phi, ap, b2, &tn, &un, &vn);
+  var = cscb(RADCURV, -x, -y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 16;
@@ -507,7 +584,7 @@ double reed_shepp(double x1,
 
   /*   C Cu | Cu C   */
 
-  var = ccu_cuc(x, y, phi, ap, b2, &tn, &un, &vn);
+  var = ccu_cuc(RADCURV, x, y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 17;
@@ -516,7 +593,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = ccu_cuc(x, -y, -phi, am, b2, &tn, &un, &vn);
+  var = ccu_cuc(RADCURV, x, -y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 18;
@@ -525,7 +602,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = ccu_cuc(-x, y, -phi, am, b2, &tn, &un, &vn);
+  var = ccu_cuc(RADCURV, -x, y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 19;
@@ -534,7 +611,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = ccu_cuc(-x, -y, phi, ap, b2, &tn, &un, &vn);
+  var = ccu_cuc(RADCURV, -x, -y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 20;
@@ -545,7 +622,7 @@ double reed_shepp(double x1,
 
   /*   C | Cu Cu | C   */
 
-  var = c_cucu_c(x, y, phi, ap, b2, &tn, &un, &vn);
+  var = c_cucu_c(RADCURV, x, y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 21;
@@ -554,7 +631,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_cucu_c(x, -y, -phi, am, b2, &tn, &un, &vn);
+  var = c_cucu_c(RADCURV, x, -y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 22;
@@ -563,7 +640,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_cucu_c(-x, y, -phi, am, b2, &tn, &un, &vn);
+  var = c_cucu_c(RADCURV, -x, y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 23;
@@ -572,7 +649,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_cucu_c(-x, -y, phi, ap, b2, &tn, &un, &vn);
+  var = c_cucu_c(RADCURV, -x, -y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 24;
@@ -583,7 +660,7 @@ double reed_shepp(double x1,
 
   /*   C | C2 S C   */
 
-  var = c_c2sca(x, y, phi, ap, b1, &tn, &un, &vn);
+  var = c_c2sca(RADCURV, x, y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 25;
@@ -592,7 +669,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2sca(x, -y, -phi, am, b1, &tn, &un, &vn);
+  var = c_c2sca(RADCURV, x, -y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 26;
@@ -601,7 +678,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2sca(-x, y, -phi, am, b1, &tn, &un, &vn);
+  var = c_c2sca(RADCURV, -x, y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 27;
@@ -610,7 +687,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2sca(-x, -y, phi, ap, b1, &tn, &un, &vn);
+  var = c_c2sca(RADCURV, -x, -y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 28;
@@ -619,7 +696,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2scb(x, y, phi, ap, b2, &tn, &un, &vn);
+  var = c_c2scb(RADCURV, x, y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 29;
@@ -628,7 +705,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2scb(x, -y, -phi, am, b2, &tn, &un, &vn);
+  var = c_c2scb(RADCURV, x, -y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 30;
@@ -637,7 +714,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2scb(-x, y, -phi, am, b2, &tn, &un, &vn);
+  var = c_c2scb(RADCURV, -x, y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 31;
@@ -646,7 +723,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2scb(-x, -y, phi, ap, b2, &tn, &un, &vn);
+  var = c_c2scb(RADCURV, -x, -y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 32;
@@ -657,7 +734,7 @@ double reed_shepp(double x1,
 
   /*   C | C2 S C2 | C   */
 
-  var = c_c2sc2_c(x, y, phi, ap, b2, &tn, &un, &vn);
+  var = c_c2sc2_c(RADCURV, x, y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 33;
@@ -666,7 +743,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2sc2_c(x, -y, -phi, am, b2, &tn, &un, &vn);
+  var = c_c2sc2_c(RADCURV, x, -y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 34;
@@ -675,7 +752,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2sc2_c(-x, y, -phi, am, b2, &tn, &un, &vn);
+  var = c_c2sc2_c(RADCURV, -x, y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 35;
@@ -684,7 +761,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = c_c2sc2_c(-x, -y, phi, ap, b2, &tn, &un, &vn);
+  var = c_c2sc2_c(RADCURV, -x, -y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 36;
@@ -695,7 +772,7 @@ double reed_shepp(double x1,
 
   /*   C C | C   */
 
-  var = cc_c(x, y, phi, ap, b1, &tn, &un, &vn);
+  var = cc_c(RADCURV, x, y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 37;
@@ -704,7 +781,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cc_c(x, -y, -phi, am, b1, &tn, &un, &vn);
+  var = cc_c(RADCURV, x, -y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 38;
@@ -713,7 +790,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cc_c(-x, y, -phi, am, b1, &tn, &un, &vn);
+  var = cc_c(RADCURV, -x, y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 39;
@@ -722,7 +799,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = cc_c(-x, -y, phi, ap, b1, &tn, &un, &vn);
+  var = cc_c(RADCURV, -x, -y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 40;
@@ -733,7 +810,7 @@ double reed_shepp(double x1,
 
   /*   C S C2 | C   */
 
-  var = csc2_ca(x, y, phi, ap, b1, &tn, &un, &vn);
+  var = csc2_ca(RADCURV, x, y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 41;
@@ -742,7 +819,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_ca(x, -y, -phi, am, b1, &tn, &un, &vn);
+  var = csc2_ca(RADCURV, x, -y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 42;
@@ -751,7 +828,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_ca(-x, y, -phi, am, b1, &tn, &un, &vn);
+  var = csc2_ca(RADCURV, -x, y, -phi, am, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 43;
@@ -760,7 +837,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_ca(-x, -y, phi, ap, b1, &tn, &un, &vn);
+  var = csc2_ca(RADCURV, -x, -y, phi, ap, b1, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 44;
@@ -769,7 +846,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_cb(x, y, phi, ap, b2, &tn, &un, &vn);
+  var = csc2_cb(RADCURV, x, y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 45;
@@ -778,7 +855,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_cb(x, -y, -phi, am, b2, &tn, &un, &vn);
+  var = csc2_cb(RADCURV, x, -y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 46;
@@ -787,7 +864,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_cb(-x, y, -phi, am, b2, &tn, &un, &vn);
+  var = csc2_cb(RADCURV, -x, y, -phi, am, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 47;
@@ -796,7 +873,7 @@ double reed_shepp(double x1,
     v = vn;
   }
 
-  var = csc2_cb(-x, -y, phi, ap, b2, &tn, &un, &vn);
+  var = csc2_cb(RADCURV, -x, -y, phi, ap, b2, &tn, &un, &vn);
   if (var < length) {
     length = var;
     num = 48;
@@ -813,13 +890,14 @@ double reed_shepp(double x1,
 }
 
 /***********************************************************/
-double min_length_rs(double x1,
+double min_length_rs(float RADCURV,
+                     double x1,
                      double y1,
                      double t1,
                      double x2,
                      double y2,
                      double t2,
-                     double* numero,
+                     int* numero,
                      double* t,
                      double* u,
                      double* v) {
@@ -828,14 +906,15 @@ double min_length_rs(double x1,
   if ((fabs(x1 - x2) < EPS1) && (fabs(y1 - y2) < EPS1) && (fabs(t1 - t2) < EPS1))
     length_rs = 0.0;
   else
-    length_rs = reed_shepp(x1, y1, t1, x2, y2, t2, numero, t, u, v);
+    length_rs = reed_shepp(RADCURV, x1, y1, t1, x2, y2, t2, numero, t, u, v);
 
   return (length_rs);
 }
 
 /***********************************************************/
-int fct_curve(int ty,
-              double orientation,
+int fct_curve(float RADCURV,
+              int ty,
+              int orientation,
               double val,
               double* x1,
               double* y1,
@@ -845,18 +924,18 @@ int fct_curve(int ty,
               double* pathy,
               double* patht,
               int n) {
-  extern float RADCURV, RADCURVMUL2, RADCURVMUL4;
   int i;
-  double va1, va2, l, newval, incrt, remain;
+  double va1, va2, newval, incrt, remain;
   double center_x, center_y;
   double x2, y2, t2;
   int nnew;
 
-  if (ty == 3)
+  if (ty == 3) {
     if (fabs(val / RADCURV) < EPS4)
       return (0);
     else if (fabs(val) < EPS4)
       return (0);
+  }
 
   switch (ty) {
     case 1: /* circular arc toward the right */
@@ -977,7 +1056,8 @@ int fct_curve(int ty,
 }
 
 /***********************************************************/
-int constRS(int num,
+int constRS(float RADCURV,
+            int num,
             double t,
             double u,
             double v,
@@ -1006,343 +1086,344 @@ int constRS(int num,
       /*   C | C | C   */
 
     case 1:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 2:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 3:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 4:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C | C C   */
 
     case 5:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 6:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 7:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 8:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C S C   */
 
     case 9:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 10:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 11:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 12:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 13:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 14:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 15:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 16:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C Cu | Cu C   */
 
     case 17:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 18:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 19:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 20:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C | Cu Cu | C   */
 
     case 21:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 22:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 23:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 24:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C | C2 S C   */
 
     case 25:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 26:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 27:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 28:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 29:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 30:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 31:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 32:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C | C2 S C2 | C   */
 
     case 33:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 34:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 35:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 36:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C C | C   */
 
     case 37:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 38:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 39:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, right, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 40:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, left, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
       /*   C S C2 | C   */
 
     case 41:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 42:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 43:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 44:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 45:
-      n = fct_curve(left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 46:
-      n = fct_curve(right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, fwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 47:
-      n = fct_curve(left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     case 48:
-      n = fct_curve(right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
-      n = fct_curve(straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
-      n = fct_curve(left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, t, &x1, &y1, &t1, delta, pathx, pathy, patht, 1);
+      n = fct_curve(RADCURV, straight, bwd, u, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, right, bwd, MPIDIV2, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
+      n = fct_curve(RADCURV, left, fwd, v, &x1, &y1, &t1, delta, pathx, pathy, patht, n);
       break;
 
     default:
-      printf("Error: RS curve type %d unknown\n", num);
+      fprintf(stderr, "Error: RS curve type %d unknown\n", num);
+      std::terminate();
   }
 
   return n;
