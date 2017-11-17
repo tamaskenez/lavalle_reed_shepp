@@ -1,4 +1,4 @@
-# Reed-Shepp car solver
+# Reed-Shepp car solver by Steven M. LaValle
 
 Initial commit from:
 
